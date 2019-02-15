@@ -14,6 +14,7 @@ public class BadCodeExample {
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.google.com.ua/");
         //Home_assignment
+
         String searchTerm = "Selenium";
         WebElement searchField;
         searchField = driver.findElement(By.name("q"));
