@@ -31,8 +31,8 @@ public class LoginTests {
         WebElement userPasswordField = driver.findElement(By.xpath("//input[@id='login-password']"));
         WebElement signInButton = driver.findElement(By.xpath("//input[@id='login-submit']"));
 
-        userEmailField.sendKeys("ludalm41@i.ua");
-        userPasswordField.sendKeys("e1dk99");
+        userEmailField.sendKeys("valerii.ant@meta.ua");
+        userPasswordField.sendKeys("Val_123456");
         signInButton.click();
 
         WebElement profileMenuItem = driver.findElement(By.xpath("//li[@id='profile-nav-item']"));
@@ -41,9 +41,68 @@ public class LoginTests {
         Assert.assertTrue(profileMenuItem.isDisplayed(), "profileMenuItem is not displayed on Home page.");
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.linkedin.com/feed/", "Home page URL is not correct");
     }
+    //Home_assignment
+    @Test (priority = 1)
+    public void negativeSymbolsLoginTest(){
 
-    @Test
-    public void negativeLoginTest(){
+        WebElement userEmailField = driver.findElement(By.xpath("//input[@id='login-email']"));
+        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id='login-password']"));
+        WebElement signInButton = driver.findElement(By.xpath("//input[@id='login-submit']"));
 
+        userEmailField.sendKeys("valerii.ant");
+        userPasswordField.sendKeys("1");
+        signInButton.click();
+
+        WebElement alertMessage = driver.findElement(By.xpath("//div[@id='error-for-username']"));
+        String textAlert = alertMessage.getText();
+        Assert.assertEquals(textAlert, "Please enter a valid email address.", "Message is not correct");
+    }
+
+    @Test (priority = 2)
+    public void negativeDigitsLoginTest(){
+
+        WebElement userEmailField = driver.findElement(By.xpath("//input[@id='login-email']"));
+        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id='login-password']"));
+        WebElement signInButton = driver.findElement(By.xpath("//input[@id='login-submit']"));
+
+        userEmailField.sendKeys("380955000102");
+        userPasswordField.sendKeys("1");
+        signInButton.click();
+
+        WebElement alertMessage = driver.findElement(By.xpath("//div[@id='error-for-username']"));
+        String textAlert = alertMessage.getText();
+        Assert.assertEquals(textAlert, "Be sure to include \"+\" and your country code.", "Message is not correct");
+    }
+
+    @Test (priority = 3)
+    public void negativeEmailLoginTest(){
+
+        WebElement userEmailField = driver.findElement(By.xpath("//input[@id='login-email']"));
+        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id='login-password']"));
+        WebElement signInButton = driver.findElement(By.xpath("//input[@id='login-submit']"));
+
+        userEmailField.sendKeys("valerii.ant@");
+        userPasswordField.sendKeys("1");
+        signInButton.click();
+
+        WebElement alertMessage = driver.findElement(By.xpath("//div[@id='error-for-username']"));
+        String textAlert = alertMessage.getText();
+        Assert.assertEquals(textAlert, "Hmm, we don't recognize that email. Please try again.", "Message is not correct");
+    }
+
+    @Test (priority = 4)
+    public void negativePassTest(){
+
+        WebElement userEmailField = driver.findElement(By.xpath("//input[@id='login-email']"));
+        WebElement userPasswordField = driver.findElement(By.xpath("//input[@id='login-password']"));
+        WebElement signInButton = driver.findElement(By.xpath("//input[@id='login-submit']"));
+
+        userEmailField.sendKeys("valerii.ant@meta.ua");
+        userPasswordField.sendKeys("1");
+        signInButton.click();
+
+        WebElement alertMessage = driver.findElement(By.xpath("//div[@id='error-for-password']"));
+        String textAlert = alertMessage.getText();
+        Assert.assertEquals(textAlert, "Hmm, that's not the right password. Please try again or request a new one.", "Message is not correct");
     }
 }
