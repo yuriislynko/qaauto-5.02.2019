@@ -1,11 +1,9 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class LoginTests {
@@ -24,28 +22,55 @@ public class LoginTests {
         driver.quit();
     }
 
-    @Test
-    public void successfulLoginTest() {
-        LandingPage landingPage = new LandingPage(driver);
-        landingPage.login("valerii.ant@meta.ua", "Val_123456");
-
-        HomePage homePage = new HomePage(driver);
-
-        Assert.assertTrue(homePage.isProfileMenuItemDisplayed(), "profileMenuItem is not displayed on Home page.");
-        Assert.assertEquals(driver.getCurrentUrl(), "https://www.linkedin.com/feed/", "Home page URL is not correct");
+    @DataProvider
+    public Object[][] ValidData() {
+        return new Object[][]{
+                {"valerii.ant@meta.ua", "Val_123456"},
+                {"valerii.ANT@meta.ua", "Val_123456"},
+                {" valerii.ant@meta.ua ", "Val_123456"}
+        };
     }
 
-    @Test
-    public void negativeLoginTest() {
+    @Test(dataProvider = "ValidData")
+    public void successfulLoginTest(String userEmail, String userPassword) {
         LandingPage landingPage = new LandingPage(driver);
-        landingPage.login("valerii.ant@meta.ua", "1");
+        Assert.assertTrue(landingPage.isPageLoaded(), "Landing page is not loaded.");
+
+        landingPage.login(userEmail, userPassword);
+
+        HomePage homePage = new HomePage(driver);
+        Assert.assertTrue(homePage.isPageLoaded(), "Home page is not loaded.");
+    }
+
+    @DataProvider
+    public Object[][] InvalidData() {
+        return new Object[][]{
+                {"valerii.ant@", "1", "Hmm, we don't recognize that email. Please try again."},
+                {"valerii.ant", "1", "Please enter a valid email address."},
+                {"380905550055", "1", "Be sure to include \"+\" and your country code."}
+        };
+    }
+
+    @Test(dataProvider = "InvalidData")
+    public void negativeLoginTest(String userEmail, String userPassword, String alertMessage) {
+        LandingPage landingPage = new LandingPage(driver);
+        Assert.assertTrue(landingPage.isPageLoaded(), "Landing page is not loaded.");
+
+        landingPage.login(userEmail, userPassword);
 
         LoginSubmit loginSubmit = new LoginSubmit(driver);
+        Assert.assertTrue(loginSubmit.isPageLoaded(), "Login submit page is not loaded.");
 
-        Assert.assertTrue(loginSubmit.isErrorMessageDisplayed(), "passwordErrorMessageBlock is not displayed on the page");
+        loginSubmit.passwordErrorMessageBlock.getText().equals(alertMessage);
+
+
+        /*Assert.assertEquals(loginSubmit.passwordErrorMessageBlock.getText(),
+                "Hmm, we don't recognize that email. Please try again.",
+                "Wrong validation message text for 'login' field");
+
         Assert.assertEquals(loginSubmit.passwordErrorMessageBlock.getText(),
-                "Hmm, that's not the right password. Please try again or request a new one.",
-                "Wrong validation message text for 'password' field");
-
+                "Please enter a valid email address.",
+                "Wrong validation message text for 'login' field");
+*/
     }
 }
