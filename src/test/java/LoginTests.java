@@ -45,14 +45,15 @@ public class LoginTests {
     @DataProvider
     public Object[][] InvalidData() {
         return new Object[][]{
-                {"valerii.ant@", "1", "Hmm, we don't recognize that email. Please try again."},
-                {"valerii.ant", "1", "Please enter a valid email address."},
-                {"380905550055", "1", "Be sure to include \"+\" and your country code."}
+                {"valerii.ant@", "pass", "Hmm, we don't recognize that email. Please try again.", ""},
+                {"valerii.ant", "pass", "Please enter a valid email address.", ""},
+                {"380905550055", "pass", "Be sure to include \"+\" and your country code.", ""},
+                {"valerii.ant@meta.ua", "pass", "", "Hmm, that's not the right password. Please try again or request a new one."}
         };
     }
 
     @Test(dataProvider = "InvalidData")
-    public void negativeLoginTest(String userEmail, String userPassword, String alertMessage) {
+    public void negativeLoginTest(String userEmail, String userPassword, String alertUserMessage, String alertPasswordMessage) {
         LandingPage landingPage = new LandingPage(driver);
         Assert.assertTrue(landingPage.isPageLoaded(), "Landing page is not loaded.");
 
@@ -61,16 +62,12 @@ public class LoginTests {
         LoginSubmit loginSubmit = new LoginSubmit(driver);
         Assert.assertTrue(loginSubmit.isPageLoaded(), "Login submit page is not loaded.");
 
-        loginSubmit.passwordErrorMessageBlock.getText().equals(alertMessage);
+        //First_Way
+        Assert.assertTrue(loginSubmit.userErrorMessageBlock.getText().equals(alertUserMessage), "Login is incorrect");
+        Assert.assertTrue(loginSubmit.passwordErrorMessageBlock.getText().equals(alertPasswordMessage), "Password is incorrect");
 
-
-        /*Assert.assertEquals(loginSubmit.passwordErrorMessageBlock.getText(),
-                "Hmm, we don't recognize that email. Please try again.",
-                "Wrong validation message text for 'login' field");
-
-        Assert.assertEquals(loginSubmit.passwordErrorMessageBlock.getText(),
-                "Please enter a valid email address.",
-                "Wrong validation message text for 'login' field");
-*/
+        //Second_Way
+        Assert.assertEquals(loginSubmit.userErrorMessageBlock.getText(), alertUserMessage, "INCORRECT LOGIN");
+        Assert.assertEquals(loginSubmit.passwordErrorMessageBlock.getText(), alertPasswordMessage, "INCORRECT PASSWORD");
     }
 }

@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 public class LoginSubmit {
     WebDriver driver;
 
+    WebElement userErrorMessageBlock;
     WebElement passwordErrorMessageBlock;
 
     public LoginSubmit (WebDriver driver) {
@@ -13,16 +14,17 @@ public class LoginSubmit {
     }
 
     public void initElement (){
-        passwordErrorMessageBlock = driver.findElement(By.xpath("//div[@id='error-for-username']"));
+        userErrorMessageBlock = driver.findElement(By.xpath("//div[@id='error-for-username']"));
+        passwordErrorMessageBlock = driver.findElement(By.xpath("//div[@id='error-for-password']"));
     }
+
+    //public String userErrorMessageText () {return userErrorMessageBlock.getText();}
 
     public boolean isPageLoaded() {
         return driver.getTitle().equals("Sign In to LinkedIn")
                 && driver.getCurrentUrl().contains("login-submit")
-                && passwordErrorMessageBlock.isDisplayed();
+                && passwordErrorMessageBlock.isDisplayed()
+                || userErrorMessageBlock.isDisplayed();
     }
 
-    /*public boolean isErrorMessageDisplayed (){
-        return passwordErrorMessageBlock.isDisplayed();
-    }*/
 }
