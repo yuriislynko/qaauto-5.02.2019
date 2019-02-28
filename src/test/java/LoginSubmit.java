@@ -3,28 +3,33 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class LoginSubmit {
-    WebDriver driver;
-
-    WebElement userErrorMessageBlock;
-    WebElement passwordErrorMessageBlock;
+    private WebDriver driver;
+    private WebElement loginForm;
+    private WebElement userEmailValidationMessage;
+    private WebElement userPasswordErrorValidationMessage;
 
     public LoginSubmit (WebDriver driver) {
         this.driver = driver;
         initElement();
     }
 
-    public void initElement (){
-        userErrorMessageBlock = driver.findElement(By.xpath("//div[@id='error-for-username']"));
-        passwordErrorMessageBlock = driver.findElement(By.xpath("//div[@id='error-for-password']"));
+    private void initElement (){
+        loginForm = driver.findElement(By.xpath("//form[@class='login__form']"));
+        userEmailValidationMessage = driver.findElement(By.xpath("//div[@id='error-for-username']"));
+        userPasswordErrorValidationMessage = driver.findElement(By.xpath("//div[@id='error-for-password']"));
     }
-
-    //public String userErrorMessageText () {return userErrorMessageBlock.getText();}
 
     public boolean isPageLoaded() {
-        return driver.getTitle().equals("Sign In to LinkedIn")
-                && driver.getCurrentUrl().contains("login-submit")
-                && passwordErrorMessageBlock.isDisplayed()
-                || userErrorMessageBlock.isDisplayed();
+        return loginForm.isDisplayed()
+                && driver.getCurrentUrl().contains("/login-submit")
+                && driver.getTitle().contains("Sign In to LinkedIn");
     }
 
+    public String getUserEmailValidationText() {
+        return userEmailValidationMessage.getText();
+    }
+
+    public String getUserPasswordValidationText() {
+        return userPasswordErrorValidationMessage.getText();
+    }
 }
