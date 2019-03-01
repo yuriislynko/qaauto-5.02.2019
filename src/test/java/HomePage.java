@@ -16,9 +16,6 @@ public class HomePage {
         PageFactory.initElements(driver, this);
     }
 
-    /*private void initElement (){
-        profileMenuItem = driver.findElement(By.xpath("//li[@id='profile-nav-item']"));
-    }*/
 
     public boolean isProfileMenuItemDisplayed (){
         return profileMenuItem.isDisplayed();

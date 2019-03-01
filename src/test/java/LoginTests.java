@@ -1,28 +1,8 @@
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class LoginTests {
-
-    WebDriver driver;
-    LandingPage landingPage;
-
-    @BeforeMethod
-    public void beforeMethod(){
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\slynko_y\\IdeaProjects\\qaauto-5.02.2019\\chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.get("https://www.linkedin.com/");
-        landingPage = new LandingPage(driver);
-    }
-
-    @AfterMethod
-    public void afterMethod(){
-        driver.quit();
-    }
+public class LoginTests extends BaseTest {
 
     @DataProvider
     public Object[][] ValidData() {
@@ -58,10 +38,8 @@ public class LoginTests {
                                   String alertPasswordMessage) {
         Assert.assertTrue(landingPage.isPageLoaded(), "Landing page is not loaded.");
 
-        //landingPage.login(userEmail, userPassword);
-
-        //LoginSubmit loginSubmit = landingPage.loginToLoginSubmit(userEmail, userPassword);
-        LoginSubmit loginSubmit = landingPage.login(userEmail, userPassword, LoginSubmit.class);
+        /*LoginSubmit loginSubmit = landingPage.login(userEmail, userPassword, LoginSubmit.class);*/
+        LoginSubmit loginSubmit = landingPage.login(userEmail, userPassword);
 
         Assert.assertTrue(loginSubmit.isPageLoaded(), "Login submit page is not loaded.");
         Assert.assertEquals(loginSubmit.getUserEmailValidationText(), alertUserMessage,

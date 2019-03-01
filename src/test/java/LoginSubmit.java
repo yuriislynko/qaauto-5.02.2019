@@ -20,11 +20,6 @@ public class LoginSubmit {
         PageFactory.initElements(driver, this);
     }
 
-    /*private void initElement (){
-        loginForm = driver.findElement(By.xpath("//form[@class='login__form']"));
-        userEmailValidationMessage = driver.findElement(By.xpath("//div[@id='error-for-username']"));
-        userPasswordErrorValidationMessage = driver.findElement(By.xpath("//div[@id='error-for-password']"));
-    }*/
 
     public boolean isPageLoaded() {
         return loginForm.isDisplayed()
