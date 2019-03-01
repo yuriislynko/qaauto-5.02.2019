@@ -1,23 +1,30 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class LoginSubmit {
     private WebDriver driver;
+    @FindBy(xpath = "//form[@class='login__form']")
     private WebElement loginForm;
+
+    @FindBy(xpath = "//div[@id='error-for-username']")
     private WebElement userEmailValidationMessage;
+
+    @FindBy(xpath = "//div[@id='error-for-password']")
     private WebElement userPasswordErrorValidationMessage;
 
     public LoginSubmit (WebDriver driver) {
         this.driver = driver;
-        initElement();
+        PageFactory.initElements(driver, this);
     }
 
-    private void initElement (){
+    /*private void initElement (){
         loginForm = driver.findElement(By.xpath("//form[@class='login__form']"));
         userEmailValidationMessage = driver.findElement(By.xpath("//div[@id='error-for-username']"));
         userPasswordErrorValidationMessage = driver.findElement(By.xpath("//div[@id='error-for-password']"));
-    }
+    }*/
 
     public boolean isPageLoaded() {
         return loginForm.isDisplayed()
