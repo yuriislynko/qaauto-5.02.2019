@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,6 +11,9 @@ public class HomePage {
 
     @FindBy(xpath = "//li[@id='profile-nav-item']")
     private WebElement profileMenuItem;
+
+    @FindBy(xpath = "//form[@id='extended-nav-search']//input")
+    private WebElement searchField;
 
     public HomePage (WebDriver driverFromTest) {
         this.driver = driverFromTest;
@@ -25,5 +29,11 @@ public class HomePage {
         return profileMenuItem.isDisplayed()
                 && driver.getCurrentUrl().contains("/feed")
                 && driver.getTitle().contains("LinkedIn");
+    }
+
+    public SearchPage search(String searchTerm) {
+        searchField.sendKeys(searchTerm);
+        searchField.sendKeys(Keys.ENTER);
+        return new SearchPage(driver);
     }
 }
