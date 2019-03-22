@@ -1,5 +1,9 @@
+package test;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import page.HomePage;
+import page.SearchPage;
 
 import java.util.List;
 
@@ -15,18 +19,16 @@ public class SearchTests extends BaseTest {
         Assert.assertTrue(homePage.isPageLoaded(), "Home page is not loaded.");
 
         SearchPage searchPage = homePage.search(searchTerm);
-        Thread.sleep(5000);
         Assert.assertTrue(searchPage.isPageLoaded(), "Search page is not loaded.");
 
-        Assert.assertEquals(searchPage.getSearchResultCount(), 8,
+        Assert.assertEquals(searchPage.getSearchResultCount(), 10,
                 "Search results count is wrong.");
 
         List<String> SearchResultsList= searchPage.getSearchResultsList();
 
         for(String searchResult : SearchResultsList) {
             Assert.assertTrue(searchResult.contains(searchTerm),
-                    "There aren't needed term");
+                    "SearchTerm: "+searchTerm+" not found in: \n"+searchResult);
         }
-
     }
 }

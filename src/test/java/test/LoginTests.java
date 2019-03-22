@@ -1,6 +1,10 @@
+package test;
+
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import page.HomePage;
+import page.LoginSubmit;
 
 public class LoginTests extends BaseTest {
 
@@ -38,7 +42,7 @@ public class LoginTests extends BaseTest {
                                   String alertPasswordMessage) {
         Assert.assertTrue(landingPage.isPageLoaded(), "Landing page is not loaded.");
 
-        /*LoginSubmit loginSubmit = landingPage.login(userEmail, userPassword, LoginSubmit.class);*/
+        /*page.LoginSubmit loginSubmit = landingPage.login(userEmail, userPassword, page.LoginSubmit.class);*/
         LoginSubmit loginSubmit = landingPage.login(userEmail, userPassword);
 
         Assert.assertTrue(loginSubmit.isPageLoaded(), "Login submit page is not loaded.");
