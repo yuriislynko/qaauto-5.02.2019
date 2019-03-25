@@ -15,7 +15,7 @@ public class SearchTests extends BaseTest {
 
         Assert.assertTrue(landingPage.isPageLoaded(), "Landing page is not loaded.");
 
-        HomePage homePage = landingPage.login("valerii.ant@meta.ua", "Val_123456");
+        HomePage homePage = landingPage.login("valerii.ant@meta.ua", "Val_Val1!");
         Assert.assertTrue(homePage.isPageLoaded(), "Home page is not loaded.");
 
         SearchPage searchPage = homePage.search(searchTerm);
