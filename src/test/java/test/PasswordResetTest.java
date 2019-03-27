@@ -10,7 +10,7 @@ public class PasswordResetTest extends BaseTest {
 
     @Test
     public void successfulPasswordResetTest () {
-        String userEmail = "valerii.ant@meta.ua";
+        String userEmail = "michael.orekh@gmail.com";
 
         //1
         Assert.assertTrue(landingPage.isPageLoaded(), "Landing page is not loaded.");
@@ -21,7 +21,7 @@ public class PasswordResetTest extends BaseTest {
 
         //3
         ResetPasswordLinkPage resetPasswordLinkPage = resetPasswordPage.enterEmail(userEmail);
-        try {
+        /*try {
             sleep(120000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -38,6 +38,6 @@ public class PasswordResetTest extends BaseTest {
 
         //6
         HomePage homePage = successfulPasswordResetPage.changingPasswordConfirmation();
-        Assert.assertTrue(homePage.isPageLoaded(), "Home Page is not loaded");
+        Assert.assertTrue(homePage.isPageLoaded(), "Home Page is not loaded");*/
     }
 }

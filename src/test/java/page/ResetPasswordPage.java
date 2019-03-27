@@ -1,10 +1,12 @@
 package page;
 
+import org.apache.commons.exec.util.StringUtils;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import util.GMailService;
 
 import java.security.Key;
 
@@ -32,13 +34,25 @@ public class ResetPasswordPage {
 
     public ResetPasswordLinkPage enterEmail (String userEmail) {
         inputUsername.sendKeys(userEmail);
+
+        String messageSubject = "here's the link to reset your password";
+        String messageTo = userEmail;
+        String messageFrom = "security-noreply@linkedin.com";
+
+        GMailService gMailService = new GMailService();
+        gMailService.connect();
         inputUsername.sendKeys(Keys.ENTER);
-        try {
+
+        String message = gMailService.waitMessage(messageSubject, messageTo, messageFrom, 180);
+        System.out.println("Content: " + message);
+
+
+        /*try {
             sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-        return new ResetPasswordLinkPage(driver);
+        }*/
+        return new ResetPasswordLinkPage(driver, message);
 
 
     }
